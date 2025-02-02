@@ -48,7 +48,7 @@
           alert("if true");
           // First time on this page => set marker and execute the deep link
           doDeepLink(FinalHubDeepLinkUrl);
-          sessionStorage.setItem("alreadyRedirected", "true");
+         // sessionStorage.setItem("alreadyRedirected", "true");
       } 
     document.addEventListener("visibilitychange", () => {
       alert("visibility");
@@ -57,7 +57,9 @@
         alert("if false");
         doDeepLink(GeneralChannelDeepLinkUrl);
         sessionStorage.setItem("alreadyRedirected", "false");
-      } 
+      } else {
+          sessionStorage.setItem("alreadyRedirected", "true");
+      }
     });
     });
   </script>
