@@ -21,15 +21,6 @@
           doDeepLink(FinalHubDeepLinkUrl);
          // sessionStorage.setItem("alreadyRedirected", "true");
       } 
-    document.addEventListener("visibilitychange", () => {
-      // Check if we've already redirected once in this session
-      if (sessionStorage.getItem("alreadyRedirected")) {
-        sessionStorage.setItem("alreadyRedirected", "false");
-       // doDeepLink(GeneralChannelDeepLinkUrl);
-      } else {
-          sessionStorage.setItem("alreadyRedirected", "true");
-      }
-    });
     });
   </script>
 </body>
