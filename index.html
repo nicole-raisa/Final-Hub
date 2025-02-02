@@ -17,13 +17,14 @@
         // First time on this page => set marker and execute the deep link
         sessionStorage.setItem("alreadyRedirected", "true");
         microsoftTeams.executeDeepLink(deepLinkUrl);
-      } else {
-        // We’ve been here before, so the user is likely pressing "Back"
-        // or returning from the Teams tab -> push them one more step back
-        // so they don't get stuck on this page.
-        history.back();
-        history.back();
-      }
+      } // If the user returns to this page by pressing back, popstate fires:
+      window.addEventListener("popstate", (event) => {
+        // We can check event.state if needed
+        if (event.state && event.state.redirected) {
+          // Immediately go back once more
+          history.back();
+        }
+      });
     });
   </script>
 </body>
