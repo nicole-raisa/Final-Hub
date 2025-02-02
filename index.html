@@ -54,6 +54,7 @@
   <script>
       // The pageshow event (with event.persisted === true) indicates a back/forward cache load.
     window.addEventListener("pageshow", (event) => {
+      alert('event fired');
       microsoftTeams.initialize();
       const ALREADY_REDIRECTED_KEY = "alreadyRedirected";
       // Your deep link to the Teams channel, tab, or app
@@ -62,12 +63,13 @@
       // If we've already redirected once in this session, or if the page is loaded from cache
       // we immediately go back again.
       const alreadyRedirected = !!sessionStorage.getItem(ALREADY_REDIRECTED_KEY);
-
       if (alreadyRedirected || event.persisted) {
+        alert('it true');
         // If we want to push them further back, call history.back()
         sessionStorage.setItem("alreadyRedirected", "false");
         microsoftTeams.executeDeepLink(GeneralChannelDeepLinkUrl);
       } else {
+        alert('if false');
         // If it's a fresh load, do the redirect
         sessionStorage.setItem("alreadyRedirected", "true");
         microsoftTeams.executeDeepLink(FinalHubDeepLinkUrl);
