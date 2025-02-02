@@ -10,21 +10,18 @@
       microsoftTeams.initialize();
 
       // Your deep link to the Teams channel, tab, or app
-      const deepLinkUrl = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_1573395180?context=%7B%22channelId%22%3A%2219%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2%22%7D&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
+      const FinalHubDeepLinkUrl = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_1573395180?context=%7B%22channelId%22%3A%2219%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2%22%7D&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
+      const GeneralChannelDeepLinkUrl = "https://teams.microsoft.com/l/channel/19%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2/General?groupId=f7c81ca2-e9f0-4809-822c-05edc19efab9&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
 
       // Check if we've already redirected once in this session
       if (!sessionStorage.getItem("alreadyRedirected")) {
         // First time on this page => set marker and execute the deep link
         sessionStorage.setItem("alreadyRedirected", "true");
-        microsoftTeams.executeDeepLink(deepLinkUrl);
-      } // If the user returns to this page by pressing back, popstate fires:
-      window.addEventListener("popstate", (event) => {
-        // We can check event.state if needed
-        if (event.state && event.state.redirected) {
-          // Immediately go back once more
-          history.back();
+        microsoftTeams.executeDeepLink(FinalHubDeepLinkUrl);
+      } else {
+          microsoftTeams.executeDeepLink(GeneralChannelDeepLinkUrl);
+          sessionStorage.setItem("alreadyRedirected", "false");
         }
-      });
     });
   </script>
 </body>
