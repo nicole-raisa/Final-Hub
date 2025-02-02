@@ -78,6 +78,24 @@
         microsoftTeams.executeDeepLink(FinalHubDeepLinkUrl);
       }
     });
+    // Listen for the page becoming visible again (i.e. user pressed Back from Teams)
+    document.addEventListener("visibilitychange", () => {
+      // "visibilityState" can be 'hidden', 'visible', 'prerender'
+      // We only care if the doc just became visible again AND we already deep-linked once
+      alert('visibility');
+      if (!document.hidden && deepLinkDone) {
+        // Force them backward again, or do some other redirect
+        history.back();
+      }
+    });
+
+    // Or similarly, watch for window 'focus' (depending on the browser)
+    window.addEventListener("focus", () => {
+      alert('focus');
+      if (deepLinkDone) {
+        history.back();
+      }
+    });
  </script>
 </body>
 </html>
