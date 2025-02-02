@@ -36,6 +36,7 @@
   </script>
   -->
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("visibilitychange", () => {
       alert("visibility");
       microsoftTeams.initialize();
@@ -55,7 +56,7 @@
           microsoftTeams.executeDeepLink(GeneralChannelDeepLinkUrl);
           sessionStorage.setItem("alreadyRedirected", "false");
         }
-    });
+    })};
   </script>
 </body>
 </html>
