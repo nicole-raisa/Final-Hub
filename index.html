@@ -47,16 +47,16 @@
       if (!sessionStorage.getItem("alreadyRedirected")) {
           alert("if true");
           // First time on this page => set marker and execute the deep link
-          sessionStorage.setItem("alreadyRedirected", "true");
           doDeepLink(FinalHubDeepLinkUrl);
+          sessionStorage.setItem("alreadyRedirected", "true");
       } 
     document.addEventListener("visibilitychange", () => {
       alert("visibility");
       // Check if we've already redirected once in this session
       if (sessionStorage.getItem("alreadyRedirected")) {
         alert("if false");
-        sessionStorage.setItem("alreadyRedirected", "false");
         doDeepLink(GeneralChannelDeepLinkUrl);
+        sessionStorage.setItem("alreadyRedirected", "false");
       } 
     });
     });
