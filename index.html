@@ -16,7 +16,7 @@
         sessionStorage.setItem("teamsRedirectInProgress", "true");
         // Push state so that going "back" triggers a popstate event
         history.pushState({ redirected: true }, document.title, "#redirect");
-        microsoftTeams.executeDeepLink(GeneralChannelDeepLinkUrl);
+        microsoftTeams.executeDeepLink(FinalHubDeepLinkUrl);
       }
 
       // If the user returns to this page by pressing back, popstate fires:
