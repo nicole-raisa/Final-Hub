@@ -29,7 +29,7 @@
 
                 function mobileHandler() {
 
-                    if (sessionStorage.getItem("alreadyRedirected") === 'false') {
+                    if (!sessionStorage.getItem("alreadyRedirected") || sessionStorage.getItem("alreadyRedirected") === 'false') {
                         document.addEventListener("visibilitychange", () => {
                             // Check if we've already redirected once in this session
                             if (sessionStorage.getItem("alreadyRedirected") === 'true' && !navigatedToHomepage) {
