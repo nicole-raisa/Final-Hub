@@ -1,19 +1,49 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Redirecting</title>
-  <script src="https://statics.teams.cdn.office.net/sdk/v1.10.0/js/MicrosoftTeams.min.js"></script>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+    <title>Redirecting</title>
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.10.0/js/MicrosoftTeams.min.js"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
-  <script>
-      document.addEventListener("DOMContentLoaded", function() {
-      microsoftTeams.initialize();
-      const deepLinkUrl = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_1573395180?context=%7B%22channelId%22%3A%2219%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2%22%7D&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
-      microsoftTeams.executeDeepLink(deepLinkUrl);
-    });
-  </script>
+    <script>
+        try {
+        document.addEventListener("DOMContentLoaded", () => {
+            const portalDeepLink = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_3526964105?context=%7B%22channelId%22%3A%2219%3AZxFbn6k1o4nwVbquLy5XcvIRKEOCmRPQoAA1SeXgVpw1%40thread.tacv2%22%7D&tenantId=426c01ed-bddb-499f-bf78-55bdd430cc97";
+            const teamsHomepageDeepLinkUrl = "msteams://teams.microsoft.com";
+
+            function doDeepLink(deepLinkURL) {
+                microsoftTeams.initialize();
+                microsoftTeams.executeDeepLink(deepLinkURL);
+            }
+            if (!sessionStorage.getItem("alreadyRedirected")) {
+                // First time on this page => set marker and execute the deep link
+                sessionStorage.setItem("alreadyRedirected", "true");
+                doDeepLink(portalDeepLink);
+            }
+            document.addEventListener("visibilitychange", () => {
+                // Check if we've already redirected once in this session
+                if (sessionStorage.getItem("alreadyRedirected")) {
+                    sessionStorage.setItem("alreadyRedirected", "false");
+                    // Reopen the teams app navigating to its homepage
+                    microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
+
+                    // Closes Teams (!)
+                    // microsoftTeams.tasks.submitTask();
+                } 
+            });
+        });
+    } catch (error) {
+        // alert(Error: ${error});
+    }
+    </script>
+    <img src="background-image.png" alt="Full screen" class="full-screen-img" />
 </body>
+
 </html>
