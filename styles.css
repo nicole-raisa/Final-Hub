@@ -1,0 +1,12 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.full-screen-img {
+  display: block;       /* Removes default inline spacing */
+  width: 100vw;         /* 100% of the viewport width */
+  height: 100vh;        /* 100% of the viewport height */
+  object-fit: cover;    /* Ensures the image covers area while maintaining aspect ratio */
+}
