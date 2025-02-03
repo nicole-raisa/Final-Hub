@@ -30,8 +30,11 @@
                         if (sessionStorage.getItem("alreadyRedirected") && !navigatedToHomepage) {
                             navigatedToHomepage = true;
                             sessionStorage.setItem("alreadyRedirected", "false");
-                            // Reopen the teams app navigating to its homepage
-                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
+                            
+                            setTimeout(() => {
+                                // Reopen the teams app navigating to its homepage
+                                microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
+                            }, 4000);
 
                             // Closes Teams (!)
                             // microsoftTeams.tasks.submitTask();
