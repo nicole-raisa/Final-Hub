@@ -17,6 +17,8 @@
             document.addEventListener("DOMContentLoaded", () => {
                 const portalDeepLink = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_1573395180?context=%7B%22channelId%22%3A%2219%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2%22%7D&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
                 const teamsHomepageDeepLinkUrl = "msteams://teams.microsoft.com";
+                const teamsHomepageDeepLinkUrlAlt1 = "ms.teams://teams.microsoft.com";
+                const teamsHomepageDeepLinkUrlAlt2 = "teams://teams.microsoft.com";
 
                 let navigatedToHomepage = false;
 
@@ -31,15 +33,16 @@
                             navigatedToHomepage = true;
                             sessionStorage.setItem("alreadyRedirected", "false");
                             
-                            setTimeout(() => {
-                                // Reopen the teams app navigating to its homepage
-                                microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
-                            }, 4000);
+                            // Reopen the teams app navigating to its homepage
+                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
+                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrlAlt1);
+                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrlAlt2);
 
                             // Closes Teams (!)
                             // microsoftTeams.tasks.submitTask();
                         } else {
                             // First time on this page => set marker and execute the deep link
+                            navigatedToHomepage = false;
                             sessionStorage.setItem("alreadyRedirected", "true");
                         }
                     });
@@ -51,7 +54,7 @@
             // alert(Error: ${error});
         }
     </script>
-    <img src="background-image.png" alt="Full screen" class="full-screen-img" />
+        <img src="background-image.png" alt="Full screen" class="full-screen-img" /> 
 </body>
 
 </html>
