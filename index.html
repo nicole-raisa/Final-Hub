@@ -13,72 +13,60 @@
 
 <body>
     <script>
+        alert('V 001');
         try {
-            document.addEventListener("DOMContentLoaded", () => {
-                const portalDeepLink = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_1573395180?context=%7B%22channelId%22%3A%2219%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2%22%7D&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
-                const teamsHomepageDeepLinkUrl = "msteams://teams.microsoft.com";
-                const teamsHomepageDeepLinkUrlAlt1 = "ms.teams://teams.microsoft.com";
-                const teamsHomepageDeepLinkUrlAlt2 = "teams://teams.microsoft.com";
+            const portalDeepLink = "https://teams.microsoft.com/l/entity/2a527703-1f6f-4559-a332-d8a7d288cd88/_djb2_msteams_prefix_1573395180?context=%7B%22channelId%22%3A%2219%3ARCrLj4NC_rswzh6aSowcowBlOeByFKkR21Qs9U75_e01%40thread.tacv2%22%7D&tenantId=2965b672-227f-448f-bbb2-cb113e23ac9a";
+            const teamsHomepageDeepLinkUrl = "msteams://teams.microsoft.com";
+            const teamsHomepageDeepLinkUrlAlt1 = "ms.teams://teams.microsoft.com";
+            const teamsHomepageDeepLinkUrlAlt2 = "teams://teams.microsoft.com";
 
-                let navigatedToHomepage = false;
+            let visibilityEventListened = false;
 
-                function doDeepLink(deepLinkURL) {
-                    microsoftTeams.initialize();
-                    microsoftTeams.executeDeepLink(deepLinkURL);
+            function doDeepLink(deepLinkURL) {
+                microsoftTeams.initialize();
+                microsoftTeams.executeDeepLink(deepLinkURL);
+            }
+
+            function mobileHandler() {
+                if (!visibilityEventListened) {
+                    visibilityEventListened = true;
+
+                    document.addEventListener("visibilitychange", () => {
+                        // Check if we've already redirected once in this session
+                        if (sessionStorage.getItem("alreadyRedirected") === 'true') {
+                            sessionStorage.setItem("alreadyRedirected", "false");
+                            // Reopen the teams app navigating to its homepage
+                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
+                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrlAlt1);
+                            microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrlAlt2);
+                        } else {
+                            sessionStorage.setItem("alreadyRedirected", "true");
+                        }
+                    });
                 }
 
-                function mobileHandler() {
-
-                    if (!sessionStorage.getItem("alreadyRedirected") || sessionStorage.getItem("alreadyRedirected") === 'false') {
-                        document.addEventListener("visibilitychange", () => {
-                            // Check if we've already redirected once in this session
-                            if (sessionStorage.getItem("alreadyRedirected") === 'true' && !navigatedToHomepage) {
-                                navigatedToHomepage = true;
-                                sessionStorage.setItem("alreadyRedirected", "false");
-
-                                // Reopen the teams app navigating to its homepage
-                                microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrl);
-                                microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrlAlt1);
-                                microsoftTeams.executeDeepLink(teamsHomepageDeepLinkUrlAlt2);
-
-                                // Closes Teams (!)
-                                // microsoftTeams.tasks.submitTask();
-                            } else {
-                                navigatedToHomepage = false;
-                                sessionStorage.setItem("alreadyRedirected", "true");
-                            }
-                        });
-
-                        doDeepLink(portalDeepLink);
-                    }
-                }
-
-                function desktopHandler() {
-                    console.log('desktopHandler');
-                    if (sessionStorage.getItem("alreadyRedirected") === 'false') {
-                        console.log('alreadyRedirected is FALSE');
-                        sessionStorage.setItem("alreadyRedirected", "true");
-                        doDeepLink(portalDeepLink);
-                    } else {
-                        console.log('alreadyRedirected is TRUE');
-                        sessionStorage.setItem("alreadyRedirected", "false");
-                    }
-                }
-
-                const isMobileScreen = window.innerWidth <= 768;
-                const isMobileAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-                if (isMobileScreen || isMobileAgent) {
-                    console.log('Mobile');
-                    mobileHandler();
+                if (!sessionStorage.getItem("alreadyRedirected") || sessionStorage.getItem("alreadyRedirected") === 'false') {
+                    doDeepLink(portalDeepLink);
                 } else {
-                    console.log('Desktop');
-                    desktopHandler();
+                    alert('SOULDNT GET HERE');
                 }
-            });
+            }
+
+            function desktopHandler() {
+                doDeepLink(portalDeepLink);
+            }
+
+            const isMobileScreen = window.innerWidth <= 768;
+            const isMobileAgent = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (isMobileScreen || isMobileAgent) {
+                mobileHandler();
+            } else {
+                desktopHandler();
+            }
         } catch (error) {
-            // alert(Error: ${error});
-            console.log(Error: ${error});
+            alert(Error: ${error});
+            // console.log(Error: ${error});
         }
     </script>
     <img src="background-image.png" alt="Full screen" class="full-screen-img" />
